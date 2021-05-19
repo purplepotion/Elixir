@@ -8,9 +8,9 @@ import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
 import { register } from '../actions/user.actions';
-import { USER_LOGIN_RESET, USER_REGISTER_RESET } from '../constants/user.constants';
+import { USER_REGISTER_RESET } from '../constants/user.constants';
 
-const RegisterScreen = ({ history, location }) => {
+const RegisterScreen = ({ history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
