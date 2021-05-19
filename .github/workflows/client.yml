@@ -25,9 +25,9 @@ jobs:
         run: npm run build
       - name: Check Directory
         run: ls
-      # - name: Deploy to Firebase
-      #   uses: w9jds/firebase-action@master
-      #   with:
-      #     args: deploy --only hosting
-      #   env:
-      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
