@@ -1,0 +1,4 @@
+TODO - Disable input field in Add Record Screen -> FIXED
+TODO - Bug in RecordDetailsScreen -> FIXED
+TODO - Loader and Error Handling for Signup and Signin Screen -> FIXED
+TODO - Modify app.py before deployment -> FIXED

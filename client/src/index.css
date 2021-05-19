@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@700&family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+  margin: 0;
+  font-family: 'montserrat', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+main {
+  min-height: 80vh;
+}
+
+.row {
+  margin: 0;
+}
+
+.btn {
+  font-family: 'montserrat';
+}
+
+p {
+  font-family: 'montserrat';
+}
+
+.icon {
+  text-transform: lowercase;
+  font-family: 'righteous';
+  font-size: 32pt;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* .phone-viewer-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+} */
+/* 
+img.photo {
+  width: 16rem;
+} */
+
+#pg-photo-container {
+  display: flex;
+  flex-direction: column;
+  height: fit-content !important;
+}
+
+.photo {
+  display: block !important;
+  width: auto !important;
+  height: 80vh !important ;
+}
+
+/* .form-check {
+  padding: 0;
+} */
+
+.form-label {
+  margin: 0;
+  font-weight: 600;
+}
+
+.form-check-input {
+  display: none;
+}
+
+.form-check-label {
+  border-radius: 4px;
+  border: 2px solid #2497f3;
+  padding: 0.5rem;
+}
+
+.form-check-input:checked + .form-check-label {
+  background-color: #2497f3;
+  color: #ffffff;
+}
+
+.userType__input {
+  display: flex;
+  align-items: center;
+}
+
+.fileUploadsDiv {
+  display: flex;
+}
+
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: '';
+}
+
+.file-upload-button {
+  font-size: 0.8rem;
+  height: 1rem;
+}
+
+.custom-file-label {
+  padding: auto;
+}
+
+.custom-file {
+  content: 'Choose File';
+}
