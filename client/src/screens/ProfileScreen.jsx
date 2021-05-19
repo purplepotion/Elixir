@@ -23,7 +23,7 @@ import { listRecords } from '../actions/record.actions';
 // import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const ProfileScreen = ({ history }) => {
-  const [message, setMessage] = useState(null);
+  const [message] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   const dispatch = useDispatch();
@@ -34,17 +34,13 @@ const ProfileScreen = ({ history }) => {
   const { userInfo } = userLogin;
 
   const userConsent = useSelector((state) => state.userConsent);
-  const { loading: loadingConsent, error: errorConsent, success: successConsent } = userConsent;
+  const { loading: loadingConsent } = userConsent;
 
   const recordList = useSelector((state) => state.recordList);
   const { loading: loadingRecords, error: errorRecords, records } = recordList;
 
   const userNotifications = useSelector((state) => state.userNotifications);
-  const {
-    loading: loadingNotification,
-    error: errorNotification,
-    notifications,
-  } = userNotifications;
+  const { notifications } = userNotifications;
 
   useEffect(() => {
     if (!userInfo) {

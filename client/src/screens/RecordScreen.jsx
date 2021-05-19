@@ -28,11 +28,7 @@ const RecordScreen = ({ history, match }) => {
   const { loading: loadingRecord, error: errorRecord, record } = myRecordDetails;
 
   const attachmentAdd = useSelector((state) => state.attachmentAdd);
-  const {
-    loading: loadingAttachment,
-    error: errorAttachment,
-    success: successAttachment,
-  } = attachmentAdd;
+  const { success: successAttachment } = attachmentAdd;
 
   const userRemoveAccess = useSelector((state) => state.userRemoveAccess);
   const {

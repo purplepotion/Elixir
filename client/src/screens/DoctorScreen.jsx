@@ -10,7 +10,7 @@ import { getUserDetails } from '../actions/user.actions';
 import { listPatients } from '../actions/doctor.actions';
 
 const ProfileScreen = ({ history }) => {
-  const [message, setMessage] = useState(null);
+  const [message] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   const dispatch = useDispatch();

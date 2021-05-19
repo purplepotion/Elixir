@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Button, Row, Col, Table, Container, Card, Spinner } from 'react-bootstrap';
+import { Button, Row, Col, Table, Container, Card } from 'react-bootstrap';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -12,7 +12,7 @@ import { PATIENT_CONSENT_RESET } from '../constants/doctor.constants';
 
 const PatientDetailsScreen = ({ history, match }) => {
   const patientId = match.params.id;
-  const [message, setMessage] = useState(null);
+  const [message] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const PatientDetailsScreen = ({ history, match }) => {
   const { loading: loadingPatient, error: errorPatient, patient } = patientDetails;
 
   const patientConsent = useSelector((state) => state.patientConsent);
-  const { loading: loadingConsent, error: errorConsent, success: successConsent } = patientConsent;
+  const { error: errorConsent, success: successConsent } = patientConsent;
 
   useEffect(() => {
     dispatch({ type: PATIENT_CONSENT_RESET });
