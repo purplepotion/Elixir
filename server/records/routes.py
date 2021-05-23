@@ -1,4 +1,5 @@
 import os
+import json
 import datetime
 from bson import ObjectId
 from server.config import Config
@@ -153,3 +154,18 @@ def addAttachment(_id, rid):
             break
     patient.save()
     return jsonify({"message": "Attachement Added!"}), 200
+
+
+@records.route("/api/users/search", defaults={"hid": None}, methods=["GET"])
+@records.route("/api/users/search/<hid>", methods=["GET"])
+@token_required
+def getHealthOfficials(_id, hid):
+    if hid is None:
+        healthOfficials = HealthOfficial.objects.scalar("name", "email").to_json()
+        return healthOfficials, 200
+    else:
+        healthOfficial = HealthOfficial.objects(_id=ObjectId(hid)).scalar(
+            "name", "email"
+        )
+        healthOfficial = healthOfficial.to_json()
+        return healthOfficial, 200
