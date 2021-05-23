@@ -3,7 +3,7 @@ import datetime
 from bson import ObjectId
 from server.config import Config
 from server.utils import token_required, allowed_file
-from server.models import Patient, HealthOfficial, Notifications, Record
+from server.models import Patient, HealthOfficial, PatientNotifications, Record
 from flask_cors import CORS
 from flask import request, redirect, send_from_directory, abort, jsonify, Blueprint
 
