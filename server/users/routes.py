@@ -7,7 +7,7 @@ from bson import ObjectId
 from flask import request, jsonify, Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
 from server.utils import token_required
-from server.models import Patient, HealthOfficial, Record, Notifications
+from server.models import Patient, HealthOfficial, Record, PatientNotifications
 from server.config import Config
 
 users = Blueprint("users", __name__)

@@ -1,7 +1,7 @@
 from bson import ObjectId
 from flask import request, jsonify, Blueprint
 from server.utils import token_required
-from server.models import Patient, HealthOfficial, Record, Notifications
+from server.models import Patient, HealthOfficial, Record, PatientNotifications
 from flask_cors import CORS
 
 notifications = Blueprint("notifications", __name__)
@@ -16,7 +16,9 @@ def getNotifications(_id):
         rid = request.json["recordId"]
 
         try:
-            notif = Notifications(healthOfficial=ObjectId(_id), record=ObjectId(rid))
+            notif = PatientNotifications(
+                healthOfficial=ObjectId(_id), record=ObjectId(rid)
+            )
             patient = Patient.objects(_id=ObjectId(pid)).first()
             patient.notifs.append(notif)
             patient.save()

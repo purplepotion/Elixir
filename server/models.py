@@ -13,13 +13,13 @@ from mongoengine import (
 )
 
 
-class Notifications(EmbeddedDocument):
+class PatientNotifications(EmbeddedDocument):
     _id = ObjectIdField(default=ObjectId)
     approved = BooleanField(default=False)
     healthOfficial = ObjectIdField()
     record = ObjectIdField()
 
-    meta = {"collection": "notifications"}
+    meta = {"collection": "patientNotifications"}
 
 
 class Record(EmbeddedDocument):
@@ -39,7 +39,7 @@ class Patient(Document):
     email = EmailField(required=True, unique=True)
     password = StringField(required=True)
     healthOfficials = ListField(ObjectIdField())
-    notifs = ListField(EmbeddedDocumentField(Notifications))
+    notifs = ListField(EmbeddedDocumentField(PatientNotifications))
     records = ListField(EmbeddedDocumentField(Record))
 
     meta = {"collection": "patient"}
@@ -52,7 +52,7 @@ class HealthOfficial(Document):
     password = StringField(required=True)
     patients = ListField(ObjectIdField())
     # outgoingRequests = ListField(
-    #     ReferenceField(Notifications, reverse_delete_rule=NULLIFY)
+    #     ReferenceField(PatientNotifications, reverse_delete_rule=NULLIFY)
     # )
 
     records = StringField()
