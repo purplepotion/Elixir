@@ -22,6 +22,9 @@ import {
   USER_REMOVE_ACCESS_REQUEST,
   USER_REMOVE_ACCESS_FAIL,
   USER_REMOVE_ACCESS_SUCCESS,
+  USER_SEARCH_FAIL,
+  USER_SEARCH_REQUEST,
+  USER_SEARCH_SUCCESS,
 } from '../constants/user.constants';
 
 export const login = (email, password, userType) => async (dispatch) => {
@@ -142,6 +145,33 @@ export const getNotifications = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_NOTIFICATIONS_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+export const doctorsSearch = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_SEARCH_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    };
+
+    const { data } = await axios.get(BASE_URL + `/api/users/search`, config);
+
+    dispatch({ type: USER_SEARCH_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_SEARCH_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     });
