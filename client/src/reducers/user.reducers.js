@@ -21,6 +21,9 @@ import {
   USER_REMOVE_ACCESS_FAIL,
   USER_REMOVE_ACCESS_REQUEST,
   USER_REMOVE_ACCESS_SUCCESS,
+  USER_SEARCH_FAIL,
+  USER_SEARCH_REQUEST,
+  USER_SEARCH_SUCCESS,
 } from '../constants/user.constants';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -88,6 +91,19 @@ export const userConsentReducer = (state = {}, action) => {
     case USER_CONSENT_SUCCESS:
       return { loading: false, success: true };
     case USER_CONSENT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userSearchDoctorsReducer = (state = { doctors: [] }, action) => {
+  switch (action.type) {
+    case USER_SEARCH_REQUEST:
+      return { loading: true, doctors: [] };
+    case USER_SEARCH_SUCCESS:
+      return { loading: false, doctors: [...action.payload] };
+    case USER_SEARCH_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

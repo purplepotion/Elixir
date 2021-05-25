@@ -13,12 +13,19 @@ import {
   Tab,
   Alert,
   Spinner,
+  InputGroup,
+  FormControl,
 } from 'react-bootstrap';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
-import { getUserDetails, getNotifications, consentRequest } from '../actions/user.actions';
+import {
+  getUserDetails,
+  getNotifications,
+  consentRequest,
+  doctorsSearch,
+} from '../actions/user.actions';
 import { listRecords } from '../actions/record.actions';
 // import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
@@ -42,6 +49,9 @@ const ProfileScreen = ({ history }) => {
   const userNotifications = useSelector((state) => state.userNotifications);
   const { notifications } = userNotifications;
 
+  const searchDoctors = useSelector((state) => state.searchDoctors);
+  const { loading: loadingDoctors, error: errorDoctors, doctors } = searchDoctors;
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login');
@@ -57,7 +67,7 @@ const ProfileScreen = ({ history }) => {
       dispatch(listRecords());
       dispatch(getNotifications());
     }
-  }, [dispatch, user, userInfo, loadingConsent, refresh]);
+  }, [dispatch, user, userInfo, loadingConsent, refresh, doctors]);
 
   const consentRequestHandler = (notifId, isApproved) => {
     dispatch(consentRequest(notifId, isApproved));
@@ -65,6 +75,10 @@ const ProfileScreen = ({ history }) => {
 
   const refreshHandler = () => {
     setRefresh(!refresh);
+  };
+
+  const searchDoctorsHandler = () => {
+    dispatch(doctorsSearch());
   };
 
   return (
@@ -202,10 +216,53 @@ const ProfileScreen = ({ history }) => {
                 ))}
               </div>
             </Tab>
+            <Tab eventKey='search' title='Search'>
+              <div className='mt-4'>
+                <InputGroup className='mb-3 px-3'>
+                  <FormControl placeholder='Seach for a doctor ...' />
+                  <InputGroup.Append>
+                    <Button variant='secondary' onClick={() => searchDoctorsHandler()}>
+                      Search
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
+              </div>
+              {loadingDoctors ? (
+                <Loader />
+              ) : errorDoctors ? (
+                <Message variant='danger'>{errorRecords}</Message>
+              ) : (
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>NAME</th>
+                      <th>EMAIL</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {doctors.map((doctor) => {
+                      return (
+                        <tr>
+                          <td>{doctor._id.$oid}</td>
+                          <td>{doctor.name}</td>
+                          <td>{doctor.email}</td>
+                          <td>
+                            <Button disabled variant='primary' className='btn-sm'>
+                              Request
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              )}
+            </Tab>
           </Tabs>
         </Col>
       </Row>
-      <Row></Row>
     </Container>
   );
 };

@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "client": "npm run start --prefix client",
-    "server": "python3 server/app.py"
+    "server": "python3 app.py"
   },
   "dependencies": {
     "concurrently": "^5.3.0"

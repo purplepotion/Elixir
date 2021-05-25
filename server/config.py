@@ -9,6 +9,8 @@ class Config:
 
     MONGO_URI = os.getenv("MONGO_URI")
     SECRET_KEY = os.getenv("SECRET_KEY")
+    # MONGO_URI = "mongodb+srv://scooptroop:scooptroop123@elixir.csdhw.mongodb.net/elixir?retryWrites=true&w=majority"
+    # SECRET_KEY = "thiswillcontainsecretkey"
     ALLOWED_EXTENSIONS = {"txt", "pdf", "doc", "jpg", "jpeg", "png"}
     Path("server/static/uploads").mkdir(parents=True, exist_ok=True)
     UPLOAD_FOLDER = os.path.join(os.getcwd(), "server", "static", "uploads")
