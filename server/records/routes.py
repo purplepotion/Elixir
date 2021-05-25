@@ -1,5 +1,5 @@
 import os
-import json
+import re
 import datetime
 from bson import ObjectId
 from server.config import Config
@@ -156,16 +156,28 @@ def addAttachment(_id, rid):
     return jsonify({"message": "Attachement Added!"}), 200
 
 
-@records.route("/api/users/search", defaults={"hid": None}, methods=["GET"])
-@records.route("/api/users/search/<hid>", methods=["GET"])
+@records.route("/api/users/search", methods=["GET"])
 @token_required
-def getHealthOfficials(_id, hid):
-    if hid is None:
+def getHealthOfficials(_id):
+    hid = request.args.get("hid", default=None, type=str)
+    name = request.args.get("name", default=None, type=str)
+    regex = re.compile(f".*{name}.*", re.IGNORECASE)
+
+    if hid is None and name is None:
         healthOfficials = HealthOfficial.objects.scalar("name", "email").to_json()
         return healthOfficials, 200
-    else:
+
+    elif hid and name is None:
         healthOfficial = HealthOfficial.objects(_id=ObjectId(hid)).scalar(
             "name", "email"
         )
         healthOfficial = healthOfficial.to_json()
         return healthOfficial, 200
+
+    elif name and hid is None:
+        healthOfficial = HealthOfficial.objects(name=regex).scalar("name", "email")
+        healthOfficial = healthOfficial.to_json()
+        return healthOfficial, 200
+
+    else:
+        return jsonify({"message": "Bad Request"}), 400
