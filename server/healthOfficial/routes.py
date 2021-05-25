@@ -1,7 +1,7 @@
 from bson import ObjectId
 from flask import request, jsonify, Blueprint
 from server.utils import token_required
-from server.models import Patient, HealthOfficial, Record, Notifications
+from server.models import Patient, HealthOfficial, Record, PatientNotifications
 from flask_cors import CORS
 
 healthOfficial = Blueprint("healthOfficial", __name__)

@@ -20,6 +20,7 @@ import {
   userDetailsReducer,
   userNotificationsReducer,
   userConsentReducer,
+  userSearchDoctorsReducer,
   userRemoveAccessReducer,
 } from './user.reducers';
 
@@ -39,5 +40,6 @@ export default combineReducers({
   userDetails: userDetailsReducer,
   userNotifications: userNotificationsReducer,
   userConsent: userConsentReducer,
+  searchDoctors: userSearchDoctorsReducer,
   userRemoveAccess: userRemoveAccessReducer,
 });
