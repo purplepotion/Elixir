@@ -151,7 +151,7 @@ export const getNotifications = () => async (dispatch, getState) => {
   }
 };
 
-export const doctorsSearch = () => async (dispatch, getState) => {
+export const doctorsSearch = (name) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_SEARCH_REQUEST });
 
@@ -159,12 +159,21 @@ export const doctorsSearch = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
+    let config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: userInfo.token,
       },
     };
+
+    if (name.trim().length > 0) {
+      config = {
+        ...config,
+        params: {
+          name,
+        },
+      };
+    }
 
     const { data } = await axios.get(BASE_URL + `/api/users/search`, config);
 

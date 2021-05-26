@@ -32,6 +32,7 @@ import { listRecords } from '../actions/record.actions';
 const ProfileScreen = ({ history }) => {
   const [message] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [searchName, setSearchName] = useState('');
 
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
@@ -78,7 +79,7 @@ const ProfileScreen = ({ history }) => {
   };
 
   const searchDoctorsHandler = () => {
-    dispatch(doctorsSearch());
+    dispatch(doctorsSearch(searchName));
   };
 
   return (
@@ -219,7 +220,12 @@ const ProfileScreen = ({ history }) => {
             <Tab eventKey='search' title='Search'>
               <div className='mt-4'>
                 <InputGroup className='mb-3 px-3'>
-                  <FormControl placeholder='Seach for a doctor ...' />
+                  <FormControl
+                    type='text'
+                    placeholder='Search for a doctor ...'
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
                   <InputGroup.Append>
                     <Button variant='secondary' onClick={() => searchDoctorsHandler()}>
                       Search
