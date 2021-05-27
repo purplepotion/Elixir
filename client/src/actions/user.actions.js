@@ -25,6 +25,9 @@ import {
   USER_SEARCH_FAIL,
   USER_SEARCH_REQUEST,
   USER_SEARCH_SUCCESS,
+  USER_CREATE_CONSULTATION_REQUEST,
+  USER_CREATE_CONSULTATION_SUCCESS,
+  USER_CREATE_CONSULTATION_FAIL,
 } from '../constants/user.constants';
 
 export const login = (email, password, userType) => async (dispatch) => {
@@ -151,7 +154,7 @@ export const getNotifications = () => async (dispatch, getState) => {
   }
 };
 
-export const doctorsSearch = () => async (dispatch, getState) => {
+export const doctorsSearch = (name) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_SEARCH_REQUEST });
 
@@ -159,12 +162,21 @@ export const doctorsSearch = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
+    let config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: userInfo.token,
       },
     };
+
+    if (name.trim().length > 0) {
+      config = {
+        ...config,
+        params: {
+          name,
+        },
+      };
+    }
 
     const { data } = await axios.get(BASE_URL + `/api/users/search`, config);
 
@@ -239,3 +251,37 @@ export const removeAccess = (recordId, healthOfficialId) => async (dispatch, get
     });
   }
 };
+
+export const createConsultation =
+  (doctorId, symptoms, age, gender, description) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: USER_CREATE_CONSULTATION_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userInfo.token,
+        },
+      };
+
+      const { data } = await axios.post(
+        BASE_URL + `/api/users/consultations`,
+        { hid: doctorId, symptoms, age, sex: gender, description },
+        config
+      );
+
+      dispatch({ type: USER_CREATE_CONSULTATION_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: USER_CREATE_CONSULTATION_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

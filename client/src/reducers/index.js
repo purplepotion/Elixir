@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
 import {
+  consultationApprovalReducer,
+  consultationDetailsReducer,
+  doctorConsultationsReducer,
   patientAddReducer,
   patientConsentReducer,
   patientCreateRecordReducer,
@@ -22,6 +25,7 @@ import {
   userConsentReducer,
   userSearchDoctorsReducer,
   userRemoveAccessReducer,
+  userConsultationReducer,
 } from './user.reducers';
 
 export default combineReducers({
@@ -42,4 +46,8 @@ export default combineReducers({
   userConsent: userConsentReducer,
   searchDoctors: userSearchDoctorsReducer,
   userRemoveAccess: userRemoveAccessReducer,
+  userConsultation: userConsultationReducer,
+  doctorConsultations: doctorConsultationsReducer,
+  consultationApproval: consultationApprovalReducer,
+  consultationDetails: consultationDetailsReducer,
 });

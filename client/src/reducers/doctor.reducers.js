@@ -1,4 +1,15 @@
 import {
+  CONSULTATIONS_FAIL,
+  CONSULTATIONS_REQUEST,
+  CONSULTATIONS_SUCCESS,
+  CONSULTATION_APPROVAL_FAIL,
+  CONSULTATION_APPROVAL_REQUEST,
+  CONSULTATION_APPROVAL_RESET,
+  CONSULTATION_APPROVAL_SUCCESS,
+  CONSULTATION_DETAILS_FAIL,
+  CONSULTATION_DETAILS_REQUEST,
+  CONSULTATION_DETAILS_RESET,
+  CONSULTATION_DETAILS_SUCCESS,
   PATIENT_ADD_FAIL,
   PATIENT_ADD_REQUEST,
   PATIENT_ADD_RESET,
@@ -88,6 +99,52 @@ export const patientConsentReducer = (state = { patient: {} }, action) => {
       return { ...state, loading: false, error: action.payload };
     case PATIENT_CONSENT_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const doctorConsultationsReducer = (
+  state = { consultations: [], loading: false },
+  action
+) => {
+  switch (action.type) {
+    case CONSULTATIONS_REQUEST:
+      return { ...state, loading: true };
+    case CONSULTATIONS_SUCCESS:
+      return { ...state, loading: false, consultations: action.payload };
+    case CONSULTATIONS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const consultationDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CONSULTATION_DETAILS_REQUEST:
+      return { ...state, loading: true };
+    case CONSULTATION_DETAILS_SUCCESS:
+      return { ...state, loading: false, consultation: action.payload };
+    case CONSULTATION_DETAILS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    case CONSULTATION_DETAILS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const consultationApprovalReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CONSULTATION_APPROVAL_REQUEST:
+      return { loading: true };
+    case CONSULTATION_APPROVAL_SUCCESS:
+      return { loading: false, success: true };
+    case CONSULTATION_APPROVAL_FAIL:
+      return { loading: false, error: action.payload };
+    case CONSULTATION_APPROVAL_RESET:
+      return { loading: false, success: false };
     default:
       return state;
   }

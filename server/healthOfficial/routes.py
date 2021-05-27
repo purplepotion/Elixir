@@ -153,14 +153,14 @@ def getRequests(_id):
     return jsonify({"message": "Unexpected error occurred."}), 500
 
 
-@healthOfficial.route("/api/healthOfficial/consultations/delete", methods=["GET"])
+@healthOfficial.route("/api/healthOfficial/consultations/delete", methods=["POST"])
 @token_required
 def deleteRequest(_id):
+    print("BECAUSE BHAI ROXX.........")
     data = request.json
     req_id = data["req_id"]
     p_id = data["p_id"]
-    approved = request.args.get("approved", type=str)
-
+    approved = data["approved"]
     healthOfficial = HealthOfficial.objects(_id=ObjectId(_id)).first()
     crequests = []
     for crequest in healthOfficial.consultationRequests:
