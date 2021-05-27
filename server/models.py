@@ -11,6 +11,7 @@ from mongoengine import (
     ObjectIdField,
     EmbeddedDocumentField,
 )
+from mongoengine.fields import EmbeddedDocumentListField
 
 
 class PatientNotifications(EmbeddedDocument):
@@ -71,7 +72,7 @@ class HealthOfficial(Document):
     email = EmailField(required=True, unique=True)
     password = StringField(required=True)
     patients = ListField(ObjectIdField())
-    consultationRequests = ListField(EmbeddedDocumentField(ConsultationRequest))
+    consultationRequests = EmbeddedDocumentListField(ConsultationRequest)
     records = StringField()
 
     meta = {"collection": "healthOfficial"}
