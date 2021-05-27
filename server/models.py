@@ -33,6 +33,26 @@ class Record(EmbeddedDocument):
     meta = {"collection": "record"}
 
 
+class ConsultationData(EmbeddedDocument):
+    _id = ObjectIdField(default=ObjectId)
+    age = IntField(required=True)
+    sex = StringField(required=True)
+    symptoms = ListField(StringField(), required=True)
+    description = StringField()
+
+    meta = {"collection": "consultationData"}
+
+
+class ConsultationRequest(EmbeddedDocument):
+    _id = ObjectIdField(default=ObjectId)
+    patient = ObjectIdField()
+    healthOfficial = ObjectIdField()
+    consultationData = EmbeddedDocumentField(ConsultationData)
+    approved = BooleanField(default=False)
+
+    meta = {"collection": "consultationRequest"}
+
+
 class Patient(Document):
     _id = ObjectIdField(default=ObjectId)
     name = StringField(max_length=20, required=True)
@@ -51,10 +71,7 @@ class HealthOfficial(Document):
     email = EmailField(required=True, unique=True)
     password = StringField(required=True)
     patients = ListField(ObjectIdField())
-    # outgoingRequests = ListField(
-    #     ReferenceField(PatientNotifications, reverse_delete_rule=NULLIFY)
-    # )
-
+    consultationRequests = ListField(EmbeddedDocumentField(ConsultationRequest))
     records = StringField()
 
     meta = {"collection": "healthOfficial"}
