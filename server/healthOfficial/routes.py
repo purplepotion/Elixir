@@ -1,7 +1,9 @@
+import re
+import json
 from bson import ObjectId
 from flask import request, jsonify, Blueprint
 from server.utils import token_required
-from server.models import Patient, HealthOfficial, Record, PatientNotifications
+from server.models import Patient, HealthOfficial, Record, ConsultationRequest
 from flask_cors import CORS
 
 healthOfficial = Blueprint("healthOfficial", __name__)
@@ -125,3 +127,52 @@ def addPatientRecord(_id, pid):
 
     except:
         return jsonify({"message": "Unable to create the record."}), 400
+
+
+@healthOfficial.route("/api/healthOfficial/consultations/get", methods=["GET"])
+@token_required
+def getRequests(_id):
+    req_id = request.args.get("req_id", default=None, type=str)
+    healthOfficial = HealthOfficial.objects(_id=ObjectId(_id)).first()
+    consultationRequests = healthOfficial.consultationRequests
+    # try:
+    if req_id is None:  # response with all requests
+        resp = []
+        for crequest in consultationRequests:
+            crequest = json.loads(crequest.to_json())
+            resp.append(crequest)
+        return jsonify(resp), 200
+
+    else:  # response with given req_id
+        for crequest in consultationRequests:
+            if crequest._id == ObjectId(req_id):
+                resp = json.loads(crequest.to_json())
+                return jsonify(resp), 200
+
+    # except:
+    return jsonify({"message": "Unexpected error occurred."}), 500
+
+
+@healthOfficial.route("/api/healthOfficial/consultations/delete", methods=["GET"])
+@token_required
+def deleteRequest(_id):
+    data = request.json
+    req_id = data["req_id"]
+    p_id = data["p_id"]
+    approved = request.args.get("approved", type=str)
+
+    healthOfficial = HealthOfficial.objects(_id=ObjectId(_id)).first()
+    crequests = []
+    for crequest in healthOfficial.consultationRequests:
+        if crequest._id == ObjectId(req_id):
+            pass
+        else:
+            crequests.append(crequest)
+
+    healthOfficial.consultationRequests = crequests
+
+    if approved == "True":
+        healthOfficial.patients.append(ObjectId(p_id))
+
+    healthOfficial.save()
+    return jsonify({"message": "Request executed successfully."})
