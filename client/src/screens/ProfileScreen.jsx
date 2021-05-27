@@ -250,12 +250,12 @@ const ProfileScreen = ({ history }) => {
                   <tbody>
                     {doctors.map((doctor) => {
                       return (
-                        <tr>
+                        <tr key={doctor._id.$oid}>
                           <td>{doctor._id.$oid}</td>
                           <td>{doctor.name}</td>
                           <td>{doctor.email}</td>
                           <td>
-                            <LinkContainer to={`/requests/add/${doctor._id.$oid}`}>
+                            <LinkContainer to={`/consultations/add/${doctor._id.$oid}`}>
                               <Button variant='light' className='btn-sm'>
                                 Request
                               </Button>

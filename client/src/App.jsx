@@ -14,7 +14,8 @@ import ProfileScreen from './screens/ProfileScreen';
 import DoctorScreen from './screens/DoctorScreen';
 import RecordDetailsScreen from './screens/RecordDetailsScreen';
 import RecordScreen from './screens/RecordScreen';
-import AddRequestScreen from './screens/AddRequestScreen';
+import AddConsultationScreen from './screens/AddConsultationScreen';
+import ConsultationDetailsScreen from './screens/ConsultationDetailsScreen';
 
 const App = () => {
   return (
@@ -27,7 +28,8 @@ const App = () => {
           <Route path='/profile' exact component={ProfileScreen} />
           <Route path='/profile/doctor' exact component={DoctorScreen} />
           <Route path='/records/add' exact component={AddRecordScreen} />
-          <Route path='/requests/add/:id' exact component={AddRequestScreen} />
+          <Route path='/consultations/add/:hid' exact component={AddConsultationScreen} />
+          <Route path='/consultations/details/:id' exact component={ConsultationDetailsScreen} />
           <Route path='/records/details/:id' exact component={RecordScreen} />
           <Route path='/patients/add' exact component={AddPatientScreen} />
           <Route path='/patients/details/:id' exact component={PatientDetailsScreen} />

@@ -25,9 +25,9 @@ import {
   USER_SEARCH_FAIL,
   USER_SEARCH_REQUEST,
   USER_SEARCH_SUCCESS,
-  USER_CREATE_REQ_REQUEST,
-  USER_CREATE_REQ_SUCCESS,
-  USER_CREATE_REQ_FAIL,
+  USER_CREATE_CONSULTATION_REQUEST,
+  USER_CREATE_CONSULTATION_SUCCESS,
+  USER_CREATE_CONSULTATION_FAIL,
 } from '../constants/user.constants';
 
 export const login = (email, password, userType) => async (dispatch) => {
@@ -252,33 +252,36 @@ export const removeAccess = (recordId, healthOfficialId) => async (dispatch, get
   }
 };
 
-export const createRequest = (doctorId, symptoms, age, gender) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: USER_CREATE_REQ_REQUEST });
+export const createConsultation =
+  (doctorId, symptoms, age, gender, description) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: USER_CREATE_CONSULTATION_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: userInfo.token,
-      },
-    };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userInfo.token,
+        },
+      };
 
-    const { data } = await axios.put(
-      BASE_URL + `/api/users/records`,
-      { doctorId, symptoms, age, gender },
-      config
-    );
+      const { data } = await axios.post(
+        BASE_URL + `/api/users/consultations`,
+        { hid: doctorId, symptoms, age, sex: gender, description },
+        config
+      );
 
-    dispatch({ type: USER_CREATE_REQ_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: USER_CREATE_REQ_FAIL,
-      payload:
-        error.response && error.response.data.message ? error.response.data.message : error.message,
-    });
-  }
-};
+      dispatch({ type: USER_CREATE_CONSULTATION_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: USER_CREATE_CONSULTATION_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

@@ -2,6 +2,9 @@ import {
   USER_CONSENT_FAIL,
   USER_CONSENT_REQUEST,
   USER_CONSENT_SUCCESS,
+  USER_CREATE_CONSULTATION_FAIL,
+  USER_CREATE_CONSULTATION_SUCCESS,
+  USER_CREATE_CONSULTATION_REQUEST,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -24,6 +27,7 @@ import {
   USER_SEARCH_FAIL,
   USER_SEARCH_REQUEST,
   USER_SEARCH_SUCCESS,
+  USER_CREATE_CONSULTATION_RESET,
 } from '../constants/user.constants';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -118,6 +122,21 @@ export const userRemoveAccessReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case USER_REMOVE_ACCESS_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userConsultationReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_CREATE_CONSULTATION_REQUEST:
+      return { state, loading: true };
+    case USER_CREATE_CONSULTATION_SUCCESS:
+      return { loading: false, success: true };
+    case USER_CREATE_CONSULTATION_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_CREATE_CONSULTATION_RESET:
+      return { loading: false, success: false };
     default:
       return state;
   }
