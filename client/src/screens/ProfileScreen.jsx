@@ -255,9 +255,11 @@ const ProfileScreen = ({ history }) => {
                           <td>{doctor.name}</td>
                           <td>{doctor.email}</td>
                           <td>
-                            <Button disabled variant='primary' className='btn-sm'>
-                              Request
-                            </Button>
+                            <LinkContainer to={`/requests/add/${doctor._id.$oid}`}>
+                              <Button variant='light' className='btn-sm'>
+                                Request
+                              </Button>
+                            </LinkContainer>
                           </td>
                         </tr>
                       );
