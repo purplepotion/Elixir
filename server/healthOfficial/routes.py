@@ -170,8 +170,11 @@ def deleteRequest(_id):
 
     healthOfficial.consultationRequests = crequests
 
+    # create new patient notification
+    # type = consultation
     if approved == "True":
         healthOfficial.patients.append(ObjectId(p_id))
+        # approved = true
 
     healthOfficial.save()
     return jsonify({"message": "Request executed successfully."})
