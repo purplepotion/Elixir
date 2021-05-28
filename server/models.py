@@ -10,8 +10,8 @@ from mongoengine import (
     BooleanField,
     ObjectIdField,
     EmbeddedDocumentField,
+    EmbeddedDocumentListField,
 )
-from mongoengine.fields import EmbeddedDocumentListField
 
 
 class PatientNotifications(EmbeddedDocument):
@@ -47,6 +47,7 @@ class ConsultationData(EmbeddedDocument):
 class ConsultationRequest(EmbeddedDocument):
     _id = ObjectIdField(default=ObjectId)
     patient = ObjectIdField()
+    patientName = StringField()
     healthOfficial = ObjectIdField()
     consultationData = EmbeddedDocumentField(ConsultationData)
     approved = BooleanField(default=False)
