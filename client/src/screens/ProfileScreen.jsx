@@ -27,7 +27,7 @@ import {
   doctorsSearch,
 } from '../actions/user.actions';
 import { listRecords } from '../actions/record.actions';
-// import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import { USER_CREATE_CONSULTATION_RESET } from '../constants/user.constants';
 
 const ProfileScreen = ({ history }) => {
   const [message] = useState(null);
@@ -53,6 +53,9 @@ const ProfileScreen = ({ history }) => {
   const searchDoctors = useSelector((state) => state.searchDoctors);
   const { loading: loadingDoctors, error: errorDoctors, doctors } = searchDoctors;
 
+  const userConsultation = useSelector((state) => state.userConsultation);
+  const { success: successConsultation } = userConsultation;
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login');
@@ -69,6 +72,12 @@ const ProfileScreen = ({ history }) => {
       dispatch(getNotifications());
     }
   }, [dispatch, user, userInfo, loadingConsent, refresh, doctors]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: USER_CREATE_CONSULTATION_RESET });
+    }, 2000);
+  }, [dispatch]);
 
   const consentRequestHandler = (notifId, isApproved) => {
     dispatch(consentRequest(notifId, isApproved));
@@ -89,7 +98,7 @@ const ProfileScreen = ({ history }) => {
           <h2>User Profile</h2>
           {message && <Message variant='danger'>{message}</Message>}
           {error && <Message variant='danger'>{error}</Message>}
-          {/* {success && <Message variant='success'>Profile Updated!</Message>} */}
+
           {loading && <Loader />}
 
           <Card style={{ padding: '1rem' }}>
@@ -123,6 +132,9 @@ const ProfileScreen = ({ history }) => {
           </Card>
         </Col>
         <Col md={8}>
+          {successConsultation && (
+            <Message variant='success'>Consultation Request sent successfully.</Message>
+          )}
           <Tabs
             fill
             variant='tabs'

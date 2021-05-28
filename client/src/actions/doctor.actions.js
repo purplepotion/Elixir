@@ -241,7 +241,6 @@ export const getConsultationDetails = (req_id) => async (dispatch, getState) => 
 };
 
 export const approveConsultation = (req_id, p_id, isApproved) => async (dispatch, getState) => {
-  console.log('BECAUSE BHAI ROXXX.........');
   try {
     dispatch({ type: CONSULTATION_APPROVAL_REQUEST });
 

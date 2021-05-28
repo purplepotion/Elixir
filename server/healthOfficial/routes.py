@@ -156,7 +156,6 @@ def getRequests(_id):
 @healthOfficial.route("/api/healthOfficial/consultations/delete", methods=["POST"])
 @token_required
 def deleteRequest(_id):
-    print("BECAUSE BHAI ROXX.........")
     data = request.json
     req_id = data["req_id"]
     p_id = data["p_id"]
