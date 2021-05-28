@@ -1,10 +1,17 @@
 import os
-import json
+import re
 import datetime
 from bson import ObjectId
 from server.config import Config
 from server.utils import token_required, allowed_file
-from server.models import Patient, HealthOfficial, PatientNotifications, Record
+from server.models import (
+    ConsultationData,
+    ConsultationRequest,
+    Patient,
+    HealthOfficial,
+    PatientNotifications,
+    Record,
+)
 from flask_cors import CORS
 from flask import request, redirect, send_from_directory, abort, jsonify, Blueprint
 
@@ -90,7 +97,7 @@ def addRecord(_id):
             return jsonify({"message": "Record added successfully."}), 200
 
         except:
-            return jsonify({"message": "Unable to create the record."}), 400
+            return jsonify({"message": "Unable to create the record."}), 500
 
 
 @records.route("/api/users/records/<rid>", methods=["GET", "PUT"])
@@ -156,16 +163,67 @@ def addAttachment(_id, rid):
     return jsonify({"message": "Attachement Added!"}), 200
 
 
-@records.route("/api/users/search", defaults={"hid": None}, methods=["GET"])
-@records.route("/api/users/search/<hid>", methods=["GET"])
+@records.route("/api/users/search", methods=["GET"])
 @token_required
-def getHealthOfficials(_id, hid):
-    if hid is None:
-        healthOfficials = HealthOfficial.objects.scalar("name", "email").to_json()
-        return healthOfficials, 200
+def getHealthOfficials(_id):
+    hid = request.args.get("hid", default=None, type=str)
+    name = request.args.get("name", default=None, type=str)
+    regex = re.compile(f".*{name}.*", re.IGNORECASE)
+
+    try:
+        if hid is None and name is None:
+            healthOfficials = HealthOfficial.objects.scalar("name", "email").to_json()
+            return healthOfficials, 200
+
+        elif hid and name is None:
+            healthOfficial = HealthOfficial.objects(_id=ObjectId(hid)).scalar(
+                "name", "email"
+            )
+            healthOfficial = healthOfficial.to_json()
+            return healthOfficial, 200
+
+        elif name and hid is None:
+            healthOfficial = HealthOfficial.objects(name=regex).scalar("name", "email")
+            healthOfficial = healthOfficial.to_json()
+            return healthOfficial, 200
+
+        else:
+            return jsonify({"message": "Bad Request"}), 400
+
+    except:
+        return jsonify({"message": "Unexpected error occurred."}), 500
+
+
+@records.route("/api/users/consultations", methods=["POST"])
+@token_required
+def addConsultationRequest(_id):
+    if request.method == "POST":
+        try:
+            data = request.json
+            hid = data["hid"]
+            age = data["age"]
+            sex = data["sex"]
+            symptoms = data["symptoms"]
+            description = data["description"]
+
+            consultationData = ConsultationData(
+                age=age, sex=sex, symptoms=symptoms, description=description
+            )
+            consultationRequest = ConsultationRequest(
+                patient=ObjectId(_id),
+                patientName=Patient.objects.get(_id=ObjectId(_id)).name,
+                healthOfficial=ObjectId(hid),
+                consultationData=consultationData,
+            )
+
+            healthOfficial = HealthOfficial.objects(_id=ObjectId(hid)).first()
+            healthOfficial.consultationRequests.append(consultationRequest)
+            healthOfficial.save()
+
+            return jsonify({"message": "Request sent successfully."}), 200
+
+        except:
+            return jsonify({"message": "Unexpected error occurred."}), 500
+
     else:
-        healthOfficial = HealthOfficial.objects(_id=ObjectId(hid)).scalar(
-            "name", "email"
-        )
-        healthOfficial = healthOfficial.to_json()
-        return healthOfficial, 200
+        return jsonify({"message": "Bad Request"}), 400

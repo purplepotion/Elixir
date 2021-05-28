@@ -17,7 +17,7 @@ def getNotifications(_id):
 
         try:
             notif = PatientNotifications(
-                healthOfficial=ObjectId(_id), record=ObjectId(rid)
+                healthOfficial=ObjectId(_id), record=ObjectId(rid), rtype="consent"
             )
             patient = Patient.objects(_id=ObjectId(pid)).first()
             patient.notifs.append(notif)
@@ -37,6 +37,7 @@ def getNotifications(_id):
             notif_obj = dict()
             notif_obj["id"] = str(notif._id)
             notif_obj["approved"] = notif.approved
+            notif_obj["rtype"] = notif.rtype
 
             rid = notif.record
             record_obj = dict()

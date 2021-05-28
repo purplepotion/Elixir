@@ -27,11 +27,12 @@ import {
   doctorsSearch,
 } from '../actions/user.actions';
 import { listRecords } from '../actions/record.actions';
-// import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import { USER_CREATE_CONSULTATION_RESET } from '../constants/user.constants';
 
 const ProfileScreen = ({ history }) => {
   const [message] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [searchName, setSearchName] = useState('');
 
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
@@ -52,6 +53,9 @@ const ProfileScreen = ({ history }) => {
   const searchDoctors = useSelector((state) => state.searchDoctors);
   const { loading: loadingDoctors, error: errorDoctors, doctors } = searchDoctors;
 
+  const userConsultation = useSelector((state) => state.userConsultation);
+  const { success: successConsultation } = userConsultation;
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login');
@@ -69,6 +73,12 @@ const ProfileScreen = ({ history }) => {
     }
   }, [dispatch, user, userInfo, loadingConsent, refresh, doctors]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: USER_CREATE_CONSULTATION_RESET });
+    }, 2000);
+  }, [dispatch]);
+
   const consentRequestHandler = (notifId, isApproved) => {
     dispatch(consentRequest(notifId, isApproved));
   };
@@ -78,7 +88,7 @@ const ProfileScreen = ({ history }) => {
   };
 
   const searchDoctorsHandler = () => {
-    dispatch(doctorsSearch());
+    dispatch(doctorsSearch(searchName));
   };
 
   return (
@@ -88,7 +98,7 @@ const ProfileScreen = ({ history }) => {
           <h2>User Profile</h2>
           {message && <Message variant='danger'>{message}</Message>}
           {error && <Message variant='danger'>{error}</Message>}
-          {/* {success && <Message variant='success'>Profile Updated!</Message>} */}
+
           {loading && <Loader />}
 
           <Card style={{ padding: '1rem' }}>
@@ -122,6 +132,9 @@ const ProfileScreen = ({ history }) => {
           </Card>
         </Col>
         <Col md={8}>
+          {successConsultation && (
+            <Message variant='success'>Consultation Request sent successfully.</Message>
+          )}
           <Tabs
             fill
             variant='tabs'
@@ -219,7 +232,12 @@ const ProfileScreen = ({ history }) => {
             <Tab eventKey='search' title='Search'>
               <div className='mt-4'>
                 <InputGroup className='mb-3 px-3'>
-                  <FormControl placeholder='Seach for a doctor ...' />
+                  <FormControl
+                    type='text'
+                    placeholder='Search for a doctor ...'
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
                   <InputGroup.Append>
                     <Button variant='secondary' onClick={() => searchDoctorsHandler()}>
                       Search
@@ -244,14 +262,16 @@ const ProfileScreen = ({ history }) => {
                   <tbody>
                     {doctors.map((doctor) => {
                       return (
-                        <tr>
+                        <tr key={doctor._id.$oid}>
                           <td>{doctor._id.$oid}</td>
                           <td>{doctor.name}</td>
                           <td>{doctor.email}</td>
                           <td>
-                            <Button disabled variant='primary' className='btn-sm'>
-                              Request
-                            </Button>
+                            <LinkContainer to={`/consultations/add/${doctor._id.$oid}`}>
+                              <Button variant='light' className='btn-sm'>
+                                Request
+                              </Button>
+                            </LinkContainer>
                           </td>
                         </tr>
                       );
