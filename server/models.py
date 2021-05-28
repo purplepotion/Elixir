@@ -19,8 +19,12 @@ class PatientNotifications(EmbeddedDocument):
     approved = BooleanField(default=False)
     healthOfficial = ObjectIdField()
     record = ObjectIdField()
+<<<<<<< HEAD
     # type = consent / consultation
     # 
+=======
+    rtype = StringField()
+>>>>>>> 1ec67def7956375261617d512f6aca8a3897b12a
 
     meta = {"collection": "patientNotifications"}
 
