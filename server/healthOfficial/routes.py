@@ -175,11 +175,7 @@ def deleteRequest(_id):
     # type = consultation
     if approved == "True":
         healthOfficial.patients.append(ObjectId(p_id))
-<<<<<<< HEAD
-        # approved = true
-=======
         pnotif.approved = True
->>>>>>> 1ec67def7956375261617d512f6aca8a3897b12a
 
     patient = Patient.objects(_id=ObjectId(p_id)).first()
     patient.notifs.append(pnotif)

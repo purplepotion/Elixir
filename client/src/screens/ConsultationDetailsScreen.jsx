@@ -77,7 +77,7 @@ const ConsultationDetailsScreen = ({ history, match }) => {
                     <td>
                       <strong>Patient Name</strong>
                     </td>
-                    <td>{consultation.patient.$oid}</td>
+                    <td>{consultation.patientName}</td>
                   </tr>
                   <tr key='patient-id'>
                     <td>
