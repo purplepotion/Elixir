@@ -3,7 +3,7 @@ import json
 from bson import ObjectId
 from flask import request, jsonify, Blueprint
 from server.utils import token_required
-from server.models import Patient, HealthOfficial, Record, ConsultationRequest
+from server.models import Patient, HealthOfficial, Record, PatientNotifications
 from flask_cors import CORS
 
 healthOfficial = Blueprint("healthOfficial", __name__)
@@ -169,9 +169,15 @@ def deleteRequest(_id):
             crequests.append(crequest)
 
     healthOfficial.consultationRequests = crequests
+    pnotif = PatientNotifications(healthOfficial=ObjectId(_id), rtype="consult")
 
     if approved == "True":
         healthOfficial.patients.append(ObjectId(p_id))
+        pnotif.approved = True
 
+    patient = Patient.objects(_id=ObjectId(p_id)).first()
+    patient.notifs.append(pnotif)
+
+    patient.save()
     healthOfficial.save()
     return jsonify({"message": "Request executed successfully."})
