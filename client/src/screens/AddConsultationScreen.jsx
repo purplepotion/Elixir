@@ -8,7 +8,6 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 import { createConsultation } from '../actions/user.actions';
-import { USER_CREATE_CONSULTATION_RESET } from '../constants/user.constants';
 // import { RECORD_CREATE_RESET } from '../constants/record.constants';
 // import { PATIENT_CREATE_RECORD_RESET } from '../constants/doctor.constants';
 // import { createPatientRecord } from '../actions/doctor.actions';
@@ -46,7 +45,6 @@ const AddConsultationScreen = ({ history, match }) => {
       history.push('/login');
     }
     if (successConsultation) {
-      dispatch({ type: USER_CREATE_CONSULTATION_RESET });
       history.push('/profile');
     }
   }, [dispatch, history, successConsultation, doctorId, userInfo]);
