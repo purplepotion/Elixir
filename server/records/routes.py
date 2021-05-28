@@ -211,6 +211,7 @@ def addConsultationRequest(_id):
             )
             consultationRequest = ConsultationRequest(
                 patient=ObjectId(_id),
+                patientName=Patient.objects.get(_id=ObjectId(_id)).name,
                 healthOfficial=ObjectId(hid),
                 consultationData=consultationData,
             )
