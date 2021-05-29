@@ -42,6 +42,7 @@ Please insure that you have the following installed in your system.
 
 
 ## ScreenShots :camera_flash:
+![Alt Text](https://github.com/purplepotion/Elixir/blob/dev/imgs/elixir%20gif.gif)
  
  
 
