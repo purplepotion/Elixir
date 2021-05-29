@@ -171,6 +171,8 @@ def deleteRequest(_id):
     healthOfficial.consultationRequests = crequests
     pnotif = PatientNotifications(healthOfficial=ObjectId(_id), rtype="consult")
 
+    # create new patient notification
+    # type = consultation
     if approved == "True":
         healthOfficial.patients.append(ObjectId(p_id))
         pnotif.approved = True

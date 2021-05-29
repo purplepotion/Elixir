@@ -162,7 +162,7 @@ const ProfileScreen = ({ history }) => {
                     <Row className='align-items-center'>
                       <Col md={10}>
                         <p className='m-0'>
-                          <strong>{`${consul.patient.$oid}`}</strong> has requested your
+                          <strong>{`${consul.patientName}`}</strong> has requested your
                           consultation.{' '}
                           <Link
                             to={`/consultations/details/${consul._id.$oid}`}

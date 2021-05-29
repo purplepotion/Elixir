@@ -189,43 +189,78 @@ const ProfileScreen = ({ history }) => {
             <Tab eventKey='notifications' title='Notifications'>
               <div className='mt-4'>
                 {notifications.map((notif) => (
-                  <Alert variant='info' className='p-2' key={notif.id}>
-                    <Row className='align-items-center'>
-                      <Col md={10}>
-                        <p className='m-0'>
-                          <strong>{`Dr. ${notif.healthOfficial.name}`}</strong> has requested access
-                          to your record{' '}
-                          <Link to={`/records/details/${notif.record.id}`} className='p-0 m-0'>
-                            {`${notif.record.name}`}
-                          </Link>
-                          .
-                        </p>
-                      </Col>
-                      <Col md={2} className='p-0 d-flex flex-column'>
-                        {loadingConsent ? (
-                          <Spinner animation='border' />
-                        ) : (
-                          <>
-                            <Button
-                              variant='success'
-                              className='btn-sm'
-                              style={{ margin: '0 0 0.5rem 0' }}
-                              onClick={() => consentRequestHandler(notif.id, true)}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              variant='danger'
-                              className='btn-sm'
-                              onClick={() => consentRequestHandler(notif.id, false)}
-                            >
-                              Decline
-                            </Button>
-                          </>
-                        )}
-                      </Col>
-                    </Row>
-                  </Alert>
+                  <>
+                    {notif.rtype === 'consent' && (
+                      <Alert variant='info' className='p-2' key={notif.id}>
+                        <Row className='align-items-center'>
+                          <Col md={10}>
+                            <p className='m-0'>
+                              <strong>{`Dr. ${notif.healthOfficial.name}`}</strong> has requested
+                              access to your record{' '}
+                              <Link to={`/records/details/${notif.record.id}`} className='p-0 m-0'>
+                                {`${notif.record.name}`}
+                              </Link>
+                              .
+                            </p>
+                          </Col>
+                          <Col md={2} className='p-0 d-flex flex-column'>
+                            {loadingConsent ? (
+                              <Spinner animation='border' />
+                            ) : (
+                              <>
+                                <Button
+                                  variant='success'
+                                  className='btn-sm'
+                                  style={{ margin: '0 0 0.5rem 0' }}
+                                  onClick={() => consentRequestHandler(notif.id, true)}
+                                >
+                                  Approve
+                                </Button>
+                                <Button
+                                  variant='danger'
+                                  className='btn-sm'
+                                  onClick={() => consentRequestHandler(notif.id, false)}
+                                >
+                                  Decline
+                                </Button>
+                              </>
+                            )}
+                          </Col>
+                        </Row>
+                      </Alert>
+                    )}
+
+                    {notif.rtype === 'consult' && (
+                      <Alert
+                        variant={notif.approved ? 'success' : 'warning'}
+                        className='p-2'
+                        key={notif.id}
+                      >
+                        <Row className='align-items-center'>
+                          <Col md={10}>
+                            <p className='m-0'>
+                              <strong>{`Dr. ${notif.healthOfficial.name}`}</strong> has{' '}
+                              <strong>{notif.approved ? 'approved' : 'declined'}</strong> your
+                              consultation request.
+                            </p>
+                          </Col>
+                          <Col md={2} className='p-0 d-flex flex-column'>
+                            {loadingConsent ? (
+                              <Spinner animation='border' />
+                            ) : (
+                              <Button
+                                variant='danger'
+                                className='btn-sm'
+                                onClick={() => consentRequestHandler(notif.id, false)}
+                              >
+                                Delete
+                              </Button>
+                            )}
+                          </Col>
+                        </Row>
+                      </Alert>
+                    )}
+                  </>
                 ))}
               </div>
             </Tab>
@@ -260,22 +295,20 @@ const ProfileScreen = ({ history }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {doctors.map((doctor) => {
-                      return (
-                        <tr key={doctor._id.$oid}>
-                          <td>{doctor._id.$oid}</td>
-                          <td>{doctor.name}</td>
-                          <td>{doctor.email}</td>
-                          <td>
-                            <LinkContainer to={`/consultations/add/${doctor._id.$oid}`}>
-                              <Button variant='light' className='btn-sm'>
-                                Request
-                              </Button>
-                            </LinkContainer>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {doctors.map((doctor) => (
+                      <tr key={doctor._id.$oid}>
+                        <td>{doctor._id.$oid}</td>
+                        <td>{doctor.name}</td>
+                        <td>{doctor.email}</td>
+                        <td>
+                          <LinkContainer to={`/consultations/add/${doctor._id.$oid}`}>
+                            <Button variant='light' className='btn-sm'>
+                              Request
+                            </Button>
+                          </LinkContainer>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               )}
