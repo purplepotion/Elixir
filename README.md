@@ -4,14 +4,16 @@
 ## History & Motivation
 The widespreads problems and issues present in Indian healthcare system which motivated us to develop **Elixir** are :    
 
-    1. Unavailability of organised and proper medical records.    
-    2. Interoperability of medical data not possible.
-    3. Absence of patient medical history leads to compromise in diagnosis.
-    4. Cumbersome for patients and doctors to manage huge amounts of medical data.
-    5. Compromised data security.
+    1. Covid 19 have created acute shortage of primary healthcare workers and physicians to be consulted for primary healthcare.
+    2. Traditional telemedicine facilities are time consuming and not effective and inclusive.
+    3. Lack of features for end user which makes most of the virtual care provider platforms inclusive to only tech-savy individuals.
+    4. There's a major lapse in storage and transfer of patient medical record, most of the time causing in loss of health records and leads to compromised diagnosis
+    5. Lack of data security and data democratization
+    6. Vulnerability of paper based records.
+  
 
 ## About
-**Elixir** is a web-based application which enables patients and doctors to share electronic medical records(EMRs) in an efficient and easy to use manner. It acts a central medical repository for all health records and data for a patient and enables quick, systematic and hassle-free monitoring of longitudinal medical history of patients across the care spectrum by different health facilities i.e doctors, hospitals, etc. It uses a **unique consent based approach** to let medical data ownership in the hands of patients all the time and employs advanced authentication techniques to ensure secure data transfer.
+**Elixir** is a web-based application which enables patients and doctors to share electronic medical records(EMRs) in an efficient and easy to use manner. It acts a central medical repository for all health records and data for a patient and enables quick, systematic and hassle-free monitoring of longitudinal medical history of patients across the care spectrum by different health facilities i.e doctors, hospitals, etc. It uses a **unique consent based approach** to let medical data ownership in the hands of patients all the time and employs advanced authentication techniques to ensure secure data transfer. Also it hosts a smart consutation dashboard whicb allows patient to request for specoalist consultation. The major goal of Elixir is to make **patient care accessible at this times of COVID19** and to remove the heavy lifting of organizing, indexing, and structuring patient information to provide a complete view of the health of individual patients and entire patient populations in a secure, compliant, and auditable manner. 
 
 ## Build Instructions
 Please insure that you have the following installed in your system.   
