@@ -190,7 +190,7 @@ const ProfileScreen = ({ history }) => {
               <div className='mt-4'>
                 {notifications.map((notif) => (
                   <>
-                    {notif.rtype === 'consent' && (
+                    {notif.rtype === 'consent' ? (
                       <Alert variant='info' className='p-2' key={notif.id}>
                         <Row className='align-items-center'>
                           <Col md={10}>
@@ -228,9 +228,7 @@ const ProfileScreen = ({ history }) => {
                           </Col>
                         </Row>
                       </Alert>
-                    )}
-
-                    {notif.rtype === 'consult' && (
+                    ) : (
                       <Alert
                         variant={notif.approved ? 'success' : 'warning'}
                         className='p-2'
