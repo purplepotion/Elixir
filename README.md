@@ -21,6 +21,9 @@ The widespread problems and issues present in Indian healthcare system which mot
 
 **:pushpin: Please go through the [release information](https://github.com/purplepotion/Elixir/releases/tag/v1.0.0) for more details on features**
 
+## :recycle: Workflow and :art: Design
+![Alt Text](https://github.com/purplepotion/Elixir/blob/dev/imgs/elixir%20(5).png)
+
 ## Build Instructions :building_construction:
 Please insure that you have the following installed in your system.   
 **Requirements :memo:**
@@ -42,7 +45,7 @@ Please insure that you have the following installed in your system.
 
 
 ## ScreenShots :camera_flash:
-![Alt Text](https://github.com/purplepotion/Elixir/blob/dev/imgs/elixir%20gif.gif)
+![Alt Text](https://github.com/purplepotion/Elixir/blob/dev/imgs/elixir%20pages.gif)
  
  
 
